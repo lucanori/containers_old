@@ -24,7 +24,10 @@ target "image" {
     VCS_REF    = "vcs.revision"
     VCS_URL    = "vcs.url"
   }
-  cache-from = ["type=registry,ref=ghcr.io/lucanori/build_cache:arrranger-${TARGETARCH},mode=max,ignore-error=true"]
+  cache-from = [
+    "type=registry,ref=ghcr.io/lucanori/build_cache:arrranger-amd64,mode=max,ignore-error=true",
+    "type=registry,ref=ghcr.io/lucanori/build_cache:arrranger-arm64,mode=max,ignore-error=true"
+  ]
 }
 
 target "image-local" {
