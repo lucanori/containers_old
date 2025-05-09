@@ -4,7 +4,6 @@ ARG APP_COMMIT_SHA
 WORKDIR /app
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    gosu \
     tzdata \
     curl \
     unzip \
@@ -57,9 +56,6 @@ ENV DB_NAME=/data/arrranger.db
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-RUN chmod -R 755 /app /config /data \
-    && chown -R nobody:nogroup /app /config /data
-
 RUN --mount=type=cache,target=/root/.cache/uv \
     if [ -f "/app/uv.lock" ]; then \
         echo "Using uv.lock file" && \
@@ -70,7 +66,14 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     fi
 
 RUN apt-get purge -y --auto-remove git curl unzip \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && chmod -R 755 /app /config /data \
+    && chown -R root:root /app \
+    && chown -R nobody:nogroup /config /data
+
+USER nobody:nogroup
+WORKDIR /config
+VOLUME ["/config", "/data"]
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["uv", "run", "arrranger_sync.py"]

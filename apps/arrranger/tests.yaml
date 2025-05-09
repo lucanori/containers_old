@@ -1,69 +1,43 @@
-schemaVersion: 2.0.0
-
-metadataTest:
-  env:
-    - key: CONFIG_DIR
-      value: /config
-    - key: DATA_DIR
-      value: /data
-    - key: CONFIG_FILE
-      value: /config/arrranger_instances.json
-    - key: DB_NAME
-      value: /data/arrranger.db
-    - key: PYTHONUNBUFFERED
-      value: "1"
-    - key: VIRTUAL_ENV
-      value: /app/.venv
-  labels:
-    - key: "org.opencontainers.image.title"
-      value: "arrranger"
-  exposedPorts: []
-  volumes:
-    - /config
-    - /data
-  entrypoint: ["/usr/local/bin/entrypoint.sh"]
-  cmd: ["uv", "run", "arrranger_sync.py"]
-  workdir: /app
-
-fileExistenceTests:
-  - name: 'Check entrypoint.sh'
-    path: '/usr/local/bin/entrypoint.sh'
-    shouldExist: true
-    permissions: '-rwxr-xr-x'
-  - name: 'Check arrranger_sync.py'
-    path: '/app/arrranger_sync.py'
-    shouldExist: true
-  - name: 'Check arrranger_scheduler.py'
-    path: '/app/arrranger_scheduler.py'
-    shouldExist: true
-  - name: 'Check arrranger_instances.json.example'
-    path: '/app/arrranger_instances.json.example'
-    shouldExist: true
-  - name: 'Check pyproject.toml'
-    path: '/app/pyproject.toml'
-    shouldExist: true
-  - name: 'Check uv.lock'
-    path: '/app/uv.lock'
-    shouldExist: true
-  - name: 'Check gosu'
-    path: '/usr/bin/gosu'
-    shouldExist: true
-    permissions: '-rwxr-xr-x'
-
-commandTests:
-  - name: "Check python version"
-    command: "python"
-    args: ["--version"]
-    expectedOutput: ["Python 3.12.*"]
-  - name: "Check uv version"
-    command: "uv"
-    args: ["--version"]
-    exitCode: 0
-  - name: "Check gosu execution"
-    command: "gosu"
-    args: ["arrranger", "whoami"]
-    expectedOutput: ["arrranger"]
-  - name: "Test entrypoint script help (simulated)"
-    command: "/usr/local/bin/entrypoint.sh"
-    args: ["uv", "run", "arrranger_sync.py", "--help"]
-    exitCode: 0
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/goss-org/goss/master/docs/schema.yaml
+process:
+  python:
+    running: true
+  uv:
+    running: true
+file:
+  /usr/local/bin/entrypoint.sh:
+    exists: true
+    mode: "0755"
+  /app/arrranger_sync.py:
+    exists: true
+  /app/arrranger_scheduler.py:
+    exists: true
+  /app/arrranger_instances.json.example:
+    exists: true
+  /app/pyproject.toml:
+    exists: true
+  /app/uv.lock:
+    exists: true
+  /usr/bin/gosu:
+    exists: true
+    mode: "0755"
+  /config:
+    exists: true
+    filetype: directory
+  /data:
+    exists: true
+    filetype: directory
+command:
+  python --version:
+    exit-status: 0
+    stdout:
+      - "/Python 3.12.*/"
+  uv --version:
+    exit-status: 0
+  gosu arrranger whoami:
+    exit-status: 0
+    stdout:
+      - "arrranger"
+  /usr/local/bin/entrypoint.sh uv run arrranger_sync.py --help:
+    exit-status: 0
