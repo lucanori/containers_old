@@ -5,7 +5,7 @@ variable "SOURCE" {
 }
 
 variable "VERSION" {
-  default = "rolling"
+  default = "v1.0.1"
 }
 
 target "image" {
