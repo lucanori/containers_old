@@ -1,13 +1,13 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/goss-org/goss/master/docs/schema.yaml
 process:
-  python:
+  qbittorrent-nox:
     running: true
 port:
-  tcp:6767:
+  tcp6:8080:
     listening: true
 http:
-  http://localhost:6767:
+  http://localhost:8080:
     status: 200
 file:
   /usr/local/bin/python:

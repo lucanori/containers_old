@@ -74,5 +74,6 @@ RUN apt-get purge -y --auto-remove git curl unzip \
 USER nobody:nogroup
 WORKDIR /config
 VOLUME ["/config", "/data"]
+
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["uv", "run", "arrranger_sync.py"]
