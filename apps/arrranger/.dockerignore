@@ -1,0 +1,47 @@
+# Git files
+.git
+.gitignore
+.gitattributes
+
+# Python cache and virtual environment
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.pip-cache
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Test files (if not needed in the image itself)
+tests/
+*.test.py
+pytest.ini
+.pytest_cache/
+
+# Local configuration or secrets
+*.local
+*.env
+secrets/
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+*.egg
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
