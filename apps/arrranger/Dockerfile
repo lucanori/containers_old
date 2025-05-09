@@ -29,7 +29,16 @@ RUN git clone --depth 1 https://github.com/lucanori/arrranger.git /app_tmp \
     && cd /app \
     && echo $ARRRANGER_COMMIT_SHA > /app/ARRRANGER_COMMIT_SHA.txt
 
-ENV ARRRANGER_COMMIT_SHA_ENV=${APP_COMMIT_SHA:-$(cat /app/ARRRANGER_COMMIT_SHA.txt)}
+RUN if [ -n "$APP_COMMIT_SHA" ]; then \
+      echo "$APP_COMMIT_SHA" > /tmp/commit_sha; \
+    else \
+      cat /app/ARRRANGER_COMMIT_SHA.txt > /tmp/commit_sha; \
+    fi && \
+    COMMIT_SHA_VALUE=$(cat /tmp/commit_sha) && \
+    echo "ARRRANGER_COMMIT_SHA_ENV=$COMMIT_SHA_VALUE" >> /etc/environment && \
+    echo "export ARRRANGER_COMMIT_SHA_ENV=$COMMIT_SHA_VALUE" >> /etc/profile
+
+ENV ARRRANGER_COMMIT_SHA_ENV=unknown
 
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-install-project --no-dev
