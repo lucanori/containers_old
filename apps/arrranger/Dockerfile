@@ -21,7 +21,6 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 RUN git clone --depth 1 https://github.com/lucanori/arrranger.git /app_tmp \
     && cd /app_tmp \
     && ARRRANGER_COMMIT_SHA=$(git rev-parse --short HEAD) \
-    && echo "Cloned arrranger commit: $ARRRANGER_COMMIT_SHA" \
     && cd / \
     && mv /app_tmp/* /app/ \
     && mv /app_tmp/.* /app/ || true \
@@ -39,8 +38,6 @@ RUN if [ -n "$APP_COMMIT_SHA" ]; then \
     echo "export ARRRANGER_COMMIT_SHA_ENV=$COMMIT_SHA_VALUE" >> /etc/profile
 
 ENV ARRRANGER_COMMIT_SHA_ENV=unknown
-
-RUN ls -la /app
 
 RUN --mount=type=cache,target=/root/.cache/uv \
     if [ -f "/app/uv.lock" ]; then \
