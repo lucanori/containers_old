@@ -19,22 +19,20 @@
       format: "json",
       transformTemplates: ['{"releases":[{"version": qbittorrent}]}'],
     },
-    servarr: {
+    "servarr-develop": {
       defaultRegistryUrlTemplate: "https://{{packageName}}.servarr.com/v1/update/develop/changes?os=linux&runtime=netcore",
       format: "json",
       transformTemplates: ['{"releases":[{"version": $[0].version}]}'],
     },
-    sonarr: {
-      defaultRegistryUrlTemplate: "https://services.sonarr.tv/v1/update/develop/changes?os=linux&runtime=netcore&version=4.0",
+    "servarr-nightly": {
+      defaultRegistryUrlTemplate: "https://{{packageName}}.servarr.com/v1/update/nightly/changes?os=linux&runtime=netcore",
       format: "json",
       transformTemplates: ['{"releases":[{"version": $[0].version}]}'],
     },
-    plex: {
-      defaultRegistryUrlTemplate: "https://plex.tv/api/downloads/5.json",
+    "sonarr-develop": {
+      defaultRegistryUrlTemplate: "https://services.sonarr.tv/v1/update/develop/changes?os=linux&runtime=netcore&version=4.0",
       format: "json",
-      transformTemplates: [
-        '{"releases":[{"version": computer.Linux.version}]}',
-      ],
+      transformTemplates: ['{"releases":[{"version": $[0].version}]}'],
     },
   },
   packageRules: [
@@ -44,6 +42,12 @@
       automerge: true,
       automergeType: "pr",
       ignoreTests: false,
+    },
+    {
+      description: "Create Individual PRs for Application Base Image Updates",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/alpine/", "/ubuntu/"],
+      additionalBranchPrefix: "{{parentDir}}-",
     },
     {
       description: ["Assign Application Labels"],
@@ -58,20 +62,6 @@
       matchDatasources: ["docker"],
       matchPackageNames: ["/ubuntu/"],
       allowedVersions: "/24\\.04/",
-    },
-    {
-      description: ["Allowed Python Version for Bazarr"],
-      matchDatasources: ["docker"],
-      matchFileNames: ["apps/bazarr/Dockerfile"],
-      matchPackageNames: ["/python/"],
-      allowedVersions: "/3\\.12/",
-    },
-    {
-      description: ["Allowed Python Version for Beets"],
-      matchDatasources: ["docker"],
-      matchFileNames: ["apps/beets/Dockerfile"],
-      matchPackageNames: ["/python/"],
-      allowedVersions: "/3\\.12/",
     },
   ],
 }
