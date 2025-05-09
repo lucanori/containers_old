@@ -29,6 +29,10 @@ RUN git clone --depth 1 https://github.com/lucanori/arrranger.git /app_tmp \
     && cd /app \
     && echo $ARRRANGER_COMMIT_SHA > /app/ARRRANGER_COMMIT_SHA.txt
 
+RUN if [ ! -f "/app/pyproject.toml" ]; then \
+    echo "pyproject.toml not found"
+fi
+
 RUN if [ -n "$APP_COMMIT_SHA" ]; then \
       echo "$APP_COMMIT_SHA" > /tmp/commit_sha; \
     else \
@@ -40,8 +44,16 @@ RUN if [ -n "$APP_COMMIT_SHA" ]; then \
 
 ENV ARRRANGER_COMMIT_SHA_ENV=unknown
 
+RUN ls -la /app
+
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-install-project --no-dev
+    if [ -f "/app/uv.lock" ]; then \
+        echo "Using uv.lock file" && \
+        uv sync --frozen --no-install-project --no-dev; \
+    else \
+        echo "No uv.lock file found, running without --frozen" && \
+        uv sync --no-install-project --no-dev; \
+    fi
 
 RUN mkdir -p /config /data
 ENV CONFIG_DIR=/config
@@ -56,7 +68,13 @@ RUN chmod -R 755 /app /config /data \
     && chown -R nobody:nogroup /app /config /data
 
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-dev
+    if [ -f "/app/uv.lock" ]; then \
+        echo "Using uv.lock file" && \
+        uv sync --frozen --no-dev; \
+    else \
+        echo "No uv.lock file found, running without --frozen" && \
+        uv sync --no-dev; \
+    fi
 
 RUN apt-get purge -y --auto-remove git curl unzip \
     && rm -rf /var/lib/apt/lists/*
