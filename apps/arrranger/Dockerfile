@@ -29,10 +29,6 @@ RUN git clone --depth 1 https://github.com/lucanori/arrranger.git /app_tmp \
     && cd /app \
     && echo $ARRRANGER_COMMIT_SHA > /app/ARRRANGER_COMMIT_SHA.txt
 
-RUN if [ ! -f "/app/pyproject.toml" ]; then \
-    echo "pyproject.toml not found"; \
-fi
-
 RUN if [ -n "$APP_COMMIT_SHA" ]; then \
       echo "$APP_COMMIT_SHA" > /tmp/commit_sha; \
     else \
