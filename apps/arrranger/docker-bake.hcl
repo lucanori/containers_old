@@ -1,3 +1,5 @@
+target "docker-metadata-action" {}
+
 variable "SOURCE" {
   default = "https://github.com/lucanori/arrranger"
 }
@@ -24,7 +26,11 @@ target "image" {
   }
 }
 
-// This target is used by the app-builder workflow to get all platforms
+target "image-local" {
+  inherits = ["image"]
+  output = ["type=docker"]
+}
+
 target "image-all" {
   inherits = ["image"]
 }
