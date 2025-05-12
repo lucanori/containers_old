@@ -2,7 +2,7 @@ target "docker-metadata-action" {}
 
 variable "VERSION" {
   // renovate: datasource=github-releases depName=lucanori/arrranger versioning=loose
-  default = "v1.0.1"
+  default = "v1.1-beta.0"
 }
 
 variable "SOURCE" {
