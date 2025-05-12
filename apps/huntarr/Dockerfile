@@ -39,7 +39,7 @@ RUN \
     && chown -R root:root /app && chmod -R 755 /app \
     && pip install uv \
     && uv pip install -r requirements.txt \
-    && mkdir -p /config/settings /config/stateful /config/user /config/logs
+    && mkdir -p /config/settings /config/stateful /config/user /config/logs \
     && chown -R nobody:nogroup /config
 
 COPY . /
