@@ -2,6 +2,12 @@
 
 FROM docker.io/library/python:3.13-alpine3.21
 ARG VERSION
+ARG TZ
+
+RUN if [ -n "$TZ" ] && [ -f "/usr/share/zoneinfo/$TZ" ]; then \
+  ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
+  echo "$TZ" > /etc/timezone; \
+fi
 
 ENV \
     CRYPTOGRAPHY_DONT_BUILD_RUST=1 \
