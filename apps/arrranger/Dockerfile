@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM ghcr.io/astral-sh/uv:python3.13-alpine
+FROM docker.io/library/python:3.13-alpine
 ARG VERSION
 
 ENV \
@@ -36,6 +36,7 @@ RUN \
     curl -fsSL "https://github.com/lucanori/arrranger/archive/refs/tags/${VERSION}.tar.gz" \
         | tar xzf - -C /app --strip-components=1 \
     && chown -R root:root /app && chmod -R 755 /app \
+    && pip install uv \
     && uv sync --frozen \
     && mkdir -p /config /data
 

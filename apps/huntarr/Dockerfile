@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM ghcr.io/astral-sh/uv:python3.13-alpine
+FROM docker.io/library/python:3.13-alpine
 ARG VERSION
 
 ENV \
@@ -31,6 +31,7 @@ RUN \
     curl -fsSL "https://github.com/plexguide/Huntarr.io/archive/refs/tags/${VERSION}.tar.gz" \
         | tar xzf - -C /app --strip-components=1 \
     && chown -R root:root /app && chmod -R 755 /app \
+    && pip install uv \
     && uv pip install -r requirements.txt \
     && mkdir -p /config/settings /config/stateful /config/user /config/logs
 
