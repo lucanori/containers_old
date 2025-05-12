@@ -28,7 +28,7 @@ RUN \
         ca-certificates \
         catatonit \
         coreutils \
-        cron \
+        cronie \
         jq \
         smartmontools \
         sqlite-libs \
