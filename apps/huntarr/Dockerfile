@@ -25,11 +25,10 @@ RUN apk add --no-cache \
         curl \
         jq \
         tzdata \
-RUN curl -fsSL \
-        "https://github.com/plexguide/Huntarr.io/archive/refs/tags/${VERSION}.tar.gz" \
-        | tar xzf - -C /app --strip-components=1
-RUN uv pip install -r requirements.txt
-RUN chown -R root:root /app && chmod -R 755 /app \
+    && curl -fsSL "https://github.com/plexguide/Huntarr.io/archive/refs/tags/${VERSION}.tar.gz" \
+        | tar xzf - -C /app --strip-components=1 \
+    && uv pip install -r requirements.txt \
+    && chown -R root:root /app && chmod -R 755 /app \
     && mkdir -p /config/settings /config/stateful /config/user /config/logs
 
 ENV PYTHONPATH=/app

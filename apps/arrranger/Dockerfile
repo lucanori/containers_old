@@ -27,11 +27,10 @@ RUN apk add --no-cache \
         curl \
         jq \
         tzdata \
-RUN curl -fsSL \
-        "https://github.com/lucanori/arrranger/archive/refs/tags/${VERSION}.tar.gz" \
-        | tar xzf - -C /app --strip-components=1
-RUN uv sync --frozen
-RUN chown -R root:root /app && chmod -R 755 /app \
+    && curl -fsSL "https://github.com/lucanori/arrranger/archive/refs/tags/${VERSION}.tar.gz" \
+        | tar xzf - -C /app --strip-components=1 \
+    && uv sync --frozen \
+    && chown -R root:root /app && chmod -R 755 /app \
     && mkdir -p /config /data
 
 ENV CONFIG_DIR=/config
