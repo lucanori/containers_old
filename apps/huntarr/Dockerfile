@@ -40,8 +40,8 @@ RUN \
     && pip install uv \
     && uv pip install -r requirements.txt \
     && mkdir -p /config/settings /config/stateful /config/user /config/logs \
-    && chown -R nobody:nogroup /config \
-    && chmod -R 755 /config
+    && chown -R nobody:nogroup /config /config/stateful /config/user /config/logs \
+    && chmod -R 755 /config /config/stateful /config/user /config/logs
 
 COPY . /
 RUN chmod +x /entrypoint.sh
