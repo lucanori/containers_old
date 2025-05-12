@@ -36,6 +36,7 @@ RUN \
     && mkdir -p /config/settings /config/stateful /config/user /config/logs
 
 COPY . /
+RUN chmod +x /entrypoint.sh
 
 USER nobody:nogroup
 WORKDIR /config
