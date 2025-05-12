@@ -36,8 +36,10 @@ RUN \
     && \
     wget -O - "https://github.com/lucanori/arrranger/archive/refs/tags/${VERSION}.tar.gz" \
         | tar xzf - -C /app --strip-components=1 \
-    && chown -R root:root /app && chmod -R 755 /app \
     && pip install uv \
+    && chown -R root:root /app && chmod -R 755 /app \
+    && ls -la /app \
+    && cd /app \
     && uv sync --frozen \
     && mkdir -p /config /data
 
