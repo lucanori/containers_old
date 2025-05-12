@@ -13,11 +13,7 @@ ENV \
     PYTHONUNBUFFERED=1 \
     UV_NO_CACHE=true \
     UV_SYSTEM_PYTHON=true \
-    CONFIG_DIR=/config \
-    CONFIG_FILE=/config/arrranger_instances.json \
-    CRON_SCHEDULE="0 * * * *" \
-    DATA_DIR=/data \
-    DB_NAME=/data/arrranger.db
+    PYTHONPATH=/app
 
 USER root
 WORKDIR /app
@@ -28,25 +24,23 @@ RUN \
         ca-certificates \
         catatonit \
         coreutils \
-        cronie \
         jq \
         smartmontools \
-        sqlite-libs \
         tzdata \
     && \
-    wget -O - "https://github.com/lucanori/arrranger/archive/refs/tags/${VERSION}.tar.gz" \
+    wget -O - "https://github.com/plexguide/Huntarr.io/archive/refs/tags/${VERSION}.tar.gz" \
         | tar xzf - -C /app --strip-components=1 \
-    && pip install uv \
     && chown -R root:root /app && chmod -R 755 /app \
-    && ls -la /app \
-    && cd /app \
-    && uv sync --frozen \
-    && mkdir -p /config /data
+    && pip install uv \
+    && uv pip install -r requirements.txt \
+    && mkdir -p /config/settings /config/stateful /config/user /config/logs
 
 COPY . /
 
 USER nobody:nogroup
 WORKDIR /config
 VOLUME ["/config", "/data"]
+
+EXPOSE 9705
 
 ENTRYPOINT ["/usr/bin/catatonit", "--", "/entrypoint.sh"]

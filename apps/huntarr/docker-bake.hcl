@@ -1,12 +1,12 @@
 target "docker-metadata-action" {}
 
 variable "VERSION" {
-  // renovate: datasource=github-releases depName=lucanori/arrranger versioning=loose
-  default = "v1.1-beta.0"
+  // renovate: datasource=github-releases depName=plexguide/Huntarr.io versioning=loose
+  default = "6.4.3"
 }
 
 variable "SOURCE" {
-  default = "https://github.com/lucanori/arrranger"
+  default = "https://github.com/plexguide/Huntarr.io"
 }
 
 group "default" {

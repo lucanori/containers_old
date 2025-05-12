@@ -5,20 +5,23 @@ process:
     running: true
   uv:
     running: true
+port:
+  tcp6:9705:
+    listening: true
+http:
+  http://localhost:9705:
+    status: 200
+    timeout: 5000
 file:
   /usr/local/bin/entrypoint.sh:
     exists: true
-  /app/src:
+  /app/main.py:
     exists: true
-  /app/arrranger_instances.json.example:
+  /app/requirements.txt:
     exists: true
-  /usr/main.py:
+  /src:
     exists: true
-  /app/uv.lock:
-    exists: true
-  /config:
-    exists: true
-  /data:
+  /frontend:
     exists: true
 command:
   python --version:
