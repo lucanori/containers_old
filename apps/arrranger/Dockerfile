@@ -13,12 +13,17 @@ ENV \
     PYTHONUNBUFFERED=1 \
     UV_NO_CACHE=true \
     UV_SYSTEM_PYTHON=true \
-    CRON_SCHEDULE="0 * * * *"
+    CONFIG_DIR=/config \
+    CONFIG_FILE=/config/arrranger_instances.json \
+    CRON_SCHEDULE="0 * * * *" \
+    DATA_DIR=/data \
+    DB_NAME=/data/arrranger.db
 
 USER root
 WORKDIR /app
 
-RUN apk add --no-cache \
+RUN \
+    apk add --no-cache \
         bash \
         ca-certificates \
         catatonit \
@@ -27,16 +32,12 @@ RUN apk add --no-cache \
         curl \
         jq \
         tzdata \
-    && curl -fsSL "https://github.com/lucanori/arrranger/archive/refs/tags/${VERSION}.tar.gz" \
+    && \
+    curl -fsSL "https://github.com/lucanori/arrranger/archive/refs/tags/${VERSION}.tar.gz" \
         | tar xzf - -C /app --strip-components=1 \
-    && uv sync --frozen \
     && chown -R root:root /app && chmod -R 755 /app \
+    && uv sync --frozen \
     && mkdir -p /config /data
-
-ENV CONFIG_DIR=/config
-ENV DATA_DIR=/data
-ENV CONFIG_FILE=/config/arrranger_instances.json
-ENV DB_NAME=/data/arrranger.db
 
 COPY . /
 

@@ -12,12 +12,14 @@ ENV \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     UV_NO_CACHE=true \
-    UV_SYSTEM_PYTHON=true
+    UV_SYSTEM_PYTHON=true \
+    PYTHONPATH=/app
 
 USER root
 WORKDIR /app
 
-RUN apk add --no-cache \
+RUN \
+    apk add --no-cache \
         bash \
         ca-certificates \
         catatonit \
@@ -25,13 +27,12 @@ RUN apk add --no-cache \
         curl \
         jq \
         tzdata \
-    && curl -fsSL "https://github.com/plexguide/Huntarr.io/archive/refs/tags/${VERSION}.tar.gz" \
+    && \
+    curl -fsSL "https://github.com/plexguide/Huntarr.io/archive/refs/tags/${VERSION}.tar.gz" \
         | tar xzf - -C /app --strip-components=1 \
-    && uv pip install -r requirements.txt \
     && chown -R root:root /app && chmod -R 755 /app \
+    && uv pip install -r requirements.txt \
     && mkdir -p /config/settings /config/stateful /config/user /config/logs
-
-ENV PYTHONPATH=/app
 
 COPY . /
 
