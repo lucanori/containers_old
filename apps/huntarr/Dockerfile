@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM docker.io/library/python:3.13-alpine
+FROM docker.io/library/python:3.13-alpine3.21
 ARG VERSION
 
 ENV \
@@ -24,11 +24,11 @@ RUN \
         ca-certificates \
         catatonit \
         coreutils \
-        curl \
         jq \
+        smartmontools \
         tzdata \
     && \
-    curl -fsSL "https://github.com/plexguide/Huntarr.io/archive/refs/tags/${VERSION}.tar.gz" \
+    wget -O - "https://github.com/plexguide/Huntarr.io/archive/refs/tags/${VERSION}.tar.gz" \
         | tar xzf - -C /app --strip-components=1 \
     && chown -R root:root /app && chmod -R 755 /app \
     && pip install uv \
