@@ -40,14 +40,13 @@ RUN \
     && pip install uv \
     && uv pip install -r requirements.txt \
     && mkdir -p /config/settings /config/stateful /config/user /config/logs \
-    && chown -R nobody:nogroup /config
+    && chown -R nobody:nogroup /config \
+    && chmod -R 755 /config
 
 COPY . /
 RUN chmod +x /entrypoint.sh
 
 USER nobody:nogroup
-WORKDIR /config
-VOLUME ["/config", "/data"]
 
 EXPOSE 9705
 
