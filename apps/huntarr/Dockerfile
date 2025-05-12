@@ -12,8 +12,7 @@ ENV \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     UV_NO_CACHE=true \
-    UV_SYSTEM_PYTHON=true \
-    CRON_SCHEDULE="0 * * * *"
+    UV_SYSTEM_PYTHON=true
 
 USER root
 WORKDIR /app
@@ -23,26 +22,24 @@ RUN apk add --no-cache \
         ca-certificates \
         catatonit \
         coreutils \
-        cron \
         curl \
         jq \
         tzdata \
 RUN curl -fsSL \
-        "https://github.com/lucanori/arrranger/archive/refs/tags/${VERSION}.tar.gz" \
+        "https://github.com/plexguide/Huntarr.io/archive/refs/tags/${VERSION}.tar.gz" \
         | tar xzf - -C /app --strip-components=1
-RUN uv sync --frozen
+RUN uv pip install -r requirements.txt
 RUN chown -R root:root /app && chmod -R 755 /app \
-    && mkdir -p /config /data
+    && mkdir -p /config/settings /config/stateful /config/user /config/logs
 
-ENV CONFIG_DIR=/config
-ENV DATA_DIR=/data
-ENV CONFIG_FILE=/config/arrranger_instances.json
-ENV DB_NAME=/data/arrranger.db
+ENV PYTHONPATH=/app
 
 COPY . /
 
 USER nobody:nogroup
 WORKDIR /config
 VOLUME ["/config", "/data"]
+
+EXPOSE 9705
 
 ENTRYPOINT ["/usr/bin/catatonit", "--", "/entrypoint.sh"]
