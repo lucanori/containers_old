@@ -32,6 +32,7 @@ RUN \
     && rm -rf /tmp/*  /app/bin/Prowlarr.Update
 
 COPY . /
+RUN chmod +x /entrypoint.sh
 
 USER nobody:nogroup
 WORKDIR /config

@@ -32,6 +32,7 @@ RUN \
     && rm -rf /tmp/* /app/bin/Radarr.Update
 
 COPY . /
+RUN chmod +x /entrypoint.sh
 
 USER nobody:nogroup
 WORKDIR /config
