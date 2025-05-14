@@ -34,6 +34,7 @@ RUN \
     && rm -rf /tmp/* /app/bin/Lidarr.Update /app/bin/fpcalc
 
 COPY . /
+RUN chmod +x /entrypoint.sh
 
 USER nobody:nogroup
 WORKDIR /config

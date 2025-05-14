@@ -38,7 +38,6 @@ RUN \
         | tar xzf - -C /app --strip-components=1 \
     && pip install uv \
     && chown -R root:root /app && chmod -R 755 /app \
-    && ls -la /app \
     && cd /app \
     && uv sync --frozen \
     && mkdir -p /config /data
