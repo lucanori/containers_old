@@ -2,12 +2,6 @@
 
 FROM docker.io/library/python:3.13-alpine3.21
 ARG VERSION
-ARG TZ
-
-RUN if [ -n "$TZ" ] && [ -f "/usr/share/zoneinfo/$TZ" ]; then \
-  ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
-  echo "$TZ" > /etc/timezone; \
-fi
 
 ENV \
     CRYPTOGRAPHY_DONT_BUILD_RUST=1 \
@@ -19,7 +13,8 @@ ENV \
     PYTHONUNBUFFERED=1 \
     UV_NO_CACHE=true \
     UV_SYSTEM_PYTHON=true \
-    PYTHONPATH=/app
+    PYTHONPATH=/app \
+    TZ=UTC
 
 USER root
 WORKDIR /app
