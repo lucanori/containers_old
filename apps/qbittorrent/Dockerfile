@@ -34,6 +34,7 @@ RUN \
     && rm -rf /tmp/*
 
 COPY . /
+RUN chmod +x /entrypoint.sh
 
 COPY --from=ghcr.io/linuxserver/unrar:latest /usr/bin/unrar-alpine /usr/bin/unrar
 
