@@ -2,7 +2,7 @@ target "docker-metadata-action" {}
 
 variable "VERSION" {
   // renovate: datasource=github-releases depName=plexguide/Huntarr.io versioning=loose
-  default = "6.5.17"
+  default = "6.6.3"
 }
 
 variable "SOURCE" {
