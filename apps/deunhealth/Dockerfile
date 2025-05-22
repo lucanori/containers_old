@@ -3,7 +3,7 @@
 FROM docker.io/library/alpine:3.21
 ARG VERSION
 
-ENV DOCKER_GID=998 \
+ENV DOCKER_GID=281 \
     HEALTH_SERVER_ADDRESS=127.0.0.1:9999 \
     LOG_LEVEL=info \
     TZ=UTC
