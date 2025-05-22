@@ -16,11 +16,14 @@ RUN \
         ca-certificates \
         catatonit \
         coreutils \
+        go \
         jq \
         tzdata \
     && \
     wget -O - "https://github.com/qdm12/deunhealth/archive/refs/tags/${VERSION}.tar.gz" \
         | tar xzf - -C /app --strip-components=1 \
+    && cd /app \
+    && go build cmd/app/main.go \
     && chown -R nobody:nogroup /app && chmod -R 755 /app
 
 COPY . /
