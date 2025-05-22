@@ -18,9 +18,15 @@ on:
         description: Create Release
         default: true
 
+permissions:
+  contents: read
+
 jobs:
   deprecate:
     name: Deprecate (${{ inputs.app }})
+    permissions:
+      contents: write
+      pull-requests: write
     runs-on: ubuntu-latest
     outputs:
       pull-number: ${{ steps.pr.outputs.pull-request-number }}
@@ -57,6 +63,9 @@ jobs:
   release:
     if: ${{ inputs.release }}
     name: Release (${{ inputs.app }})
+    permissions:
+      contents: write
+      pull-requests: write
     needs: ["deprecate"]
     runs-on: ubuntu-latest
     steps:
