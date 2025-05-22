@@ -1,0 +1,18 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/goss-org/goss/master/docs/schema.yaml
+process:
+  deunhealth:
+    running: true
+port:
+  tcp:9999:
+    listening: true
+file:
+  /entrypoint.sh:
+    exists: true
+  /app/deunhealth:
+    exists: true
+command:
+  whoami:
+    exit-status: 0
+    stdout:
+      - "nobody"
