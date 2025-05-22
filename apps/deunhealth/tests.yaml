@@ -6,11 +6,6 @@ process:
 port:
   tcp:9999:
     listening: true
-file:
-  /entrypoint.sh:
-    exists: true
-  /app/deunhealth:
-    exists: true
 command:
   whoami:
     exit-status: 0
