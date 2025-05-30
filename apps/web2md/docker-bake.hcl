@@ -2,7 +2,7 @@ target "docker-metadata-action" {}
 
 variable "VERSION" {
   // renovate: datasource=github-releases depName=lucanori/web2md versioning=loose
-  default = "v1.0.0"
+  default = "v1.1.0"
 }
 
 variable "SOURCE" {
