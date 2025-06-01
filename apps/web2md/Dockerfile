@@ -32,7 +32,7 @@ RUN \
     wget -O - "https://github.com/lucanori/web2md/archive/refs/tags/${VERSION}.tar.gz" \
         | tar xzf - -C /app --strip-components=1 \
     && chown -R root:root /app && chmod -R 755 /app \
-    && rm -rf /app/searxng /app/dev \
+    && rm -rf /app/searxng /app/dev /app/test \
     && pip install uv \
     && uv pip install -r requirements.txt \
     && uv pip install watchgod \
